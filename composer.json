@@ -1,0 +1,26 @@
+{
+    "name": "edemeijer/serialize-debugger",
+    "description": "A tool for debugging failing serialize() calls",
+    "type": "library",
+    "keywords": [
+        "debugging",
+        "serialize"
+    ],
+    "authors": [
+        {
+            "name": "Ede Meijer",
+            "email": "ede.meijer88@gmail.com",
+            "role": "lead"
+        }
+    ],
+    "require": {
+        "php" : ">=5.4.0",
+        "ext-reflection": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-4": {"EdeMeijer\\": "src/EdeMeijer/"}
+    }
+}
