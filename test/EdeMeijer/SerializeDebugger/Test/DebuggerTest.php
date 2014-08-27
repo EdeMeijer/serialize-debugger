@@ -22,10 +22,44 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testBasicClassification($data, $expectedClass)
     {
-        $result = $this->SUT->debug($data);
-        $nodes = $result->getNodes();
+        $nodes = $this->SUT->debug($data)->getNodes();
         $this->assertCount(1, $nodes);
         $this->assertInstanceOf($expectedClass, $nodes[0]->getType());
+    }
+
+    public function testArrayItemHandling()
+    {
+        $nodes = $this->SUT->debug(['aaa', 'bbb'])->getNodes();
+        // We expect 3 nodes, the array and both the strings
+        $this->assertCount(3, $nodes);
+        $arrayNode = $nodes[0];
+        $stringNodes = array_slice($nodes, 1);
+        $this->assertEquals($stringNodes, $arrayNode->getChildNodes());
+    }
+
+    public function testSimpleObjectPropertyHandling()
+    {
+        $nodes = $this->SUT->debug((object)['a' => 'aaa', 'b' => 'bbb'])->getNodes();
+        // We expect 3 nodes, the object and both the strings
+        $this->assertCount(3, $nodes);
+        $objectNode = $nodes[0];
+        $stringNodes = array_slice($nodes, 1);
+        $this->assertEquals($stringNodes, array_values($objectNode->getChildNodes()));
+    }
+
+    public function testItHandlesCircularReferencesCorrectly()
+    {
+        $a = new stdClass();
+        $b = new stdClass();
+        $a->bRef = $b;
+        $b->aRef = $a;
+        $nodes = $this->SUT->debug($a)->getNodes();
+
+        $this->assertCount(2, $nodes);
+        $this->assertCount(1, $nodes[0]->getChildNodes());
+        $this->assertCount(1, $nodes[1]->getChildNodes());
+        $this->assertSame($nodes[1], $nodes[0]->getChildNodes()['bRef']);
+        $this->assertSame($nodes[0], $nodes[1]->getChildNodes()['aRef']);
     }
 
     /**
@@ -44,6 +78,7 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
             [new stdClass(), $base . 'ObjectType'],
             [new Debugger(), $base . 'ObjectType'],
             [fopen(__FILE__, 'r'), $base . 'ResourceType'],
+            [$this->getMock('Serializable'), $base . 'SerializableType']
         ];
     }
 }
