@@ -1,6 +1,6 @@
 {
     "name": "edemeijer/serialize-debugger",
-    "description": "A tool for debugging failing serialize() calls",
+    "description": "A tool for debugging failing PHP serialize() calls",
     "type": "library",
     "keywords": [
         "debugging",
@@ -9,7 +9,7 @@
     "authors": [
         {
             "name": "Ede Meijer",
-            "email": "ede.meijer88@gmail.com",
+            "email": "ede.meijer@hotmail.com",
             "role": "lead"
         }
     ],
