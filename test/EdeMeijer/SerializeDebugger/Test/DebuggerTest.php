@@ -22,14 +22,14 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testBasicClassification($data, $expectedClass)
     {
-        $nodes = $this->SUT->debug($data)->getNodes();
+        $nodes = $this->SUT->getDebugResult($data)->getRawNodes();
         $this->assertCount(1, $nodes);
         $this->assertInstanceOf($expectedClass, $nodes[0]->getType());
     }
 
     public function testArrayItemHandling()
     {
-        $nodes = $this->SUT->debug(['aaa', 'bbb'])->getNodes();
+        $nodes = $this->SUT->getDebugResult(['aaa', 'bbb'])->getRawNodes();
         // We expect 3 nodes, the array and both the strings
         $this->assertCount(3, $nodes);
         $arrayNode = $nodes[0];
@@ -39,7 +39,7 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
 
     public function testSimpleObjectPropertyHandling()
     {
-        $nodes = $this->SUT->debug((object)['a' => 'aaa', 'b' => 'bbb'])->getNodes();
+        $nodes = $this->SUT->getDebugResult((object)['a' => 'aaa', 'b' => 'bbb'])->getRawNodes();
         // We expect 3 nodes, the object and both the strings
         $this->assertCount(3, $nodes);
         $objectNode = $nodes[0];
@@ -53,7 +53,7 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
         $b = new stdClass();
         $a->bRef = $b;
         $b->aRef = $a;
-        $nodes = $this->SUT->debug($a)->getNodes();
+        $nodes = $this->SUT->getDebugResult($a)->getRawNodes();
 
         $this->assertCount(2, $nodes);
         $this->assertCount(1, $nodes[0]->getChildNodes());

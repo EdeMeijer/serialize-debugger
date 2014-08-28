@@ -1,10 +1,10 @@
 <?php
 
-namespace EdeMeijer\SerializeDebugger;
+namespace EdeMeijer\SerializeDebugger\Result;
 
-use EdeMeijer\SerializeDebugger\Type\TypeInterface;
+use EdeMeijer\SerializeDebugger\Node;
 
-class Result
+class Result implements ResultItemCollection
 {
     /** @var Node[] */
     private $nodes = [];
@@ -24,7 +24,7 @@ class Result
     /**
      * @return Node[]
      */
-    public function getNodes()
+    public function getRawNodes()
     {
         $this->process();
         return $this->nodes;
@@ -47,48 +47,19 @@ class Result
     }
 
     /**
-     * @param bool $verbose
-     * @return string[]
+     * @return ResultItem[]
      */
-    public function getOutputLines($verbose = false)
+    public function getItems()
     {
-        $this->process();
         $res = [];
-        foreach ($this->nodes as $node) {
-            $type = $node->getType();
-            $level = $type->getLevel();
-            if ($verbose || $level > TypeInterface::LEVEL_SAFE) {
-                $levelIndicator = $this->getLevelIndicator($level);
-                $res[] = sprintf(
-                    '%s - %s',
-                    $type->getName($node->getData()),
-                    $levelIndicator
-                );
-
-                $referencePaths = $this->getReferencePaths($node);
-                foreach ($referencePaths as $path) {
-                    $res[] = "\t" . $path;
-                }
-            }
+        foreach ($this->getRawNodes() as $node) {
+            $res[] = new ResultItem(
+                $node->getData(),
+                $node->getType(),
+                $this->getReferencePaths($node)
+            );
         }
         return $res;
-    }
-
-    /**
-     * @param int $level
-     * @throws Exception
-     * @return string
-     */
-    private function getLevelIndicator($level)
-    {
-        if ($level === TypeInterface::LEVEL_SAFE) {
-            return 'safe';
-        } elseif ($level === TypeInterface::LEVEL_WARNING) {
-            return 'WARNING';
-        } elseif ($level === TypeInterface::LEVEL_ERROR) {
-            return 'ERROR';
-        }
-        throw new Exception('Invalid level');
     }
 
     /**

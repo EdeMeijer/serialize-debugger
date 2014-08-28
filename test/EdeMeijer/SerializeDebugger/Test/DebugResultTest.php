@@ -3,6 +3,12 @@
 namespace EdeMeijer\SerializeDebugger\Test;
 
 use EdeMeijer\SerializeDebugger\Debugger;
+use EdeMeijer\SerializeDebugger\Result\ResultItem;
+use EdeMeijer\SerializeDebugger\Type\ArrayType;
+use EdeMeijer\SerializeDebugger\Type\ClosureType;
+use EdeMeijer\SerializeDebugger\Type\ObjectType;
+use EdeMeijer\SerializeDebugger\Type\PrimitiveType;
+use EdeMeijer\SerializeDebugger\Type\ResourceType;
 
 class DebugResultTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +20,7 @@ class DebugResultTest extends \PHPUnit_Framework_TestCase
         $this->debugger = new Debugger();
     }
 
-    public function testNonVerboseOutput()
+    public function testDebugResult()
     {
         $data = (object)[
             'prop' => [
@@ -27,36 +33,19 @@ class DebugResultTest extends \PHPUnit_Framework_TestCase
             'closure' => function() {}
         ];
 
-        $SUT = $this->debugger->debug($data);
-        $actual = $SUT->getOutputLines(false);
+        Debugger::debugHTML($data);
+
+        $SUT = $this->debugger->getDebugResult($data);
+        $actual = $SUT->getItems();
 
         $expected = [
-            'Resource - WARNING',
-            "\t" . '{root}->prop[sub][resource]',
-            'Closure - ERROR',
-            "\t" . '{root}->closure',
-        ];
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function testVerboseOutput()
-    {
-        $data = [1, 2, [true]];
-
-        $SUT = $this->debugger->debug($data);
-        $actual = $SUT->getOutputLines(true);
-
-        $expected = [
-            'Array - safe',
-            'Primitive: integer - safe',
-            "\t" . '{root}[0]',
-            'Primitive: integer - safe',
-            "\t" . '{root}[1]',
-            'Array - safe',
-            "\t" . '{root}[2]',
-            'Primitive: boolean - safe',
-            "\t" . '{root}[2][0]',
+            new ResultItem($data, new ObjectType()),
+            new ResultItem($data->prop, new ArrayType(), ['{root}->prop']),
+            new ResultItem($data->prop['sub'], new ArrayType(), ['{root}->prop[sub]']),
+            new ResultItem($data->prop['sub']['resource'], new ResourceType(), ['{root}->prop[sub][resource]']),
+            new ResultItem($data->prop['test'], new PrimitiveType(), ['{root}->prop[test]']),
+            new ResultItem($data->test, new PrimitiveType(), ['{root}->test']),
+            new ResultItem($data->closure, new ClosureType(), ['{root}->closure']),
         ];
 
         $this->assertEquals($expected, $actual);
