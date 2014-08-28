@@ -6,11 +6,11 @@ class Tracker
 {
     /** DebugNode[] */
     private $nodes = [];
-    /** @var DebugNode[] */
+    /** @var Node[] */
     private $objectNodes = [];
 
     /**
-     * @return DebugNode[]
+     * @return Node[]
      */
     public function getNodes()
     {
@@ -19,11 +19,11 @@ class Tracker
 
     /**
      * @param mixed $data
-     * @return DebugNode
+     * @return Node
      */
     public function getNodeForData($data)
     {
-        $newNode = new DebugNode($data, $this);
+        $newNode = new Node($data, $this);
 
         if (is_object($data)) {
             $hash = spl_object_hash($data);

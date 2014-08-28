@@ -6,7 +6,7 @@ use EdeMeijer\SerializeDebugger\Type\TypeInterface;
 
 class DebugResult
 {
-    /** @var DebugNode[] */
+    /** @var Node[] */
     private $nodes = [];
     /** @var (int[])[] */
     private $references = [];
@@ -14,7 +14,7 @@ class DebugResult
     private $processed = false;
 
     /**
-     * @param DebugNode[] $nodes
+     * @param Node[] $nodes
      */
     public function __construct(array $nodes)
     {
@@ -22,7 +22,7 @@ class DebugResult
     }
 
     /**
-     * @return DebugNode[]
+     * @return Node[]
      */
     public function getNodes()
     {
@@ -92,7 +92,7 @@ class DebugResult
     }
 
     /**
-     * @param DebugNode $node
+     * @param Node $node
      * @return string[]
      */
     private function getReferencePaths($node)
@@ -116,7 +116,7 @@ class DebugResult
     }
 
     /**
-     * @param DebugNode $node
+     * @param Node $node
      * @return array
      */
     private function getReferencePathData($node)

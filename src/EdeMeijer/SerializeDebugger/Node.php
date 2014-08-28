@@ -14,7 +14,7 @@ use ReflectionObject;
 use ReflectionProperty;
 use Serializable;
 
-class DebugNode
+class Node
 {
     /** @var mixed */
     private $data;
@@ -22,7 +22,7 @@ class DebugNode
     private $tracker;
     /** @var TypeInterface */
     private $type;
-    /** @var DebugNode */
+    /** @var Node */
     private $childNodes = [];
     /** @var bool */
     private $resolved = false;
@@ -66,7 +66,7 @@ class DebugNode
     }
 
     /**
-     * @return DebugNode[]
+     * @return Node[]
      */
     public function getChildNodes()
     {
@@ -75,10 +75,10 @@ class DebugNode
 
     /**
      * @param $key
-     * @param DebugNode $node
+     * @param Node $node
      * @return $this
      */
-    public function addChildNode($key, DebugNode $node)
+    public function addChildNode($key, Node $node)
     {
         $this->childNodes[$key] = $node;
         return $this;
