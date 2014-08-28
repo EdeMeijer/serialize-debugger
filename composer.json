@@ -1,6 +1,6 @@
 {
     "name": "edemeijer/serialize-debugger",
-    "description": "A tool for debugging failing PHP serialize() calls",
+    "description": "A tool for debugging failing or dangerous PHP serialize() calls",
     "type": "library",
     "license": "MIT",
     "keywords": [

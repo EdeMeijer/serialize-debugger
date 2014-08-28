@@ -12,12 +12,4 @@ class PrimitiveType extends AbstractType
     {
         return 'Primitive: ' . gettype($data);
     }
-
-    /**
-     * @return bool
-     */
-    public function isValid()
-    {
-        return true;
-    }
 }

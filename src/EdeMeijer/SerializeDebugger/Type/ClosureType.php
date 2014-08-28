@@ -14,10 +14,10 @@ class ClosureType extends AbstractType
     }
 
     /**
-     * @return bool
+     * @return int
      */
-    public function isValid()
+    public function getLevel()
     {
-        return false;
+        return self::LEVEL_ERROR;
     }
 }

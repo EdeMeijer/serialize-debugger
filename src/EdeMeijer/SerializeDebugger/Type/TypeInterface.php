@@ -4,6 +4,10 @@ namespace EdeMeijer\SerializeDebugger\Type;
 
 interface TypeInterface
 {
+    const LEVEL_SAFE = 0;
+    const LEVEL_WARNING = 1;
+    const LEVEL_ERROR = 2;
+
     /**
      * @param mixed $data
      * @return string
@@ -17,7 +21,7 @@ interface TypeInterface
     public function formatKeyAccess($key);
 
     /**
-     * @return bool
+     * @return int one of the level constants
      */
-    public function isValid();
+    public function getLevel();
 } 

@@ -2,6 +2,8 @@
 
 namespace EdeMeijer\SerializeDebugger;
 
+use EdeMeijer\SerializeDebugger\Type\TypeInterface;
+
 class DebugResult
 {
     /** @var DebugNode[] */
@@ -53,12 +55,14 @@ class DebugResult
         $this->process();
         $res = [];
         foreach ($this->nodes as $node) {
-            if ($verbose || !$node->getType()->isValid()) {
+            $type = $node->getType();
+            $level = $type->getLevel();
+            if ($verbose || $level > TypeInterface::LEVEL_SAFE) {
+                $levelIndicator = $this->getLevelIndicator($level);
                 $res[] = sprintf(
-                    '%d: %s - %s',
-                    $node->getId(),
-                    $node->getType()->getName($node->getData()),
-                    $node->getType()->isValid() ? 'valid' : 'INVALID'
+                    '%s - %s',
+                    $type->getName($node->getData()),
+                    $levelIndicator
                 );
 
                 $referencePaths = $this->getReferencePaths($node);
@@ -68,6 +72,23 @@ class DebugResult
             }
         }
         return $res;
+    }
+
+    /**
+     * @param int $level
+     * @throws Exception
+     * @return string
+     */
+    private function getLevelIndicator($level)
+    {
+        if ($level === TypeInterface::LEVEL_SAFE) {
+            return 'safe';
+        } elseif ($level === TypeInterface::LEVEL_WARNING) {
+            return 'WARNING';
+        } elseif ($level === TypeInterface::LEVEL_ERROR) {
+            return 'ERROR';
+        }
+        throw new Exception('Invalid level');
     }
 
     /**
@@ -88,7 +109,7 @@ class DebugResult
                 $pathString .= $parentNode->getType()->formatKeyAccess($parentKey);
             }
             if ($pathString !== '') {
-                $result[] = 'root' . $pathString;
+                $result[] = '{root}' . $pathString;
             }
         }
         return $result;

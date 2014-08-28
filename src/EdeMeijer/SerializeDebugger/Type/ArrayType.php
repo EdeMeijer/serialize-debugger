@@ -21,12 +21,4 @@ class ArrayType extends AbstractType
     {
         return '[' . $key . ']';
     }
-
-    /**
-     * @return bool
-     */
-    public function isValid()
-    {
-        return true;
-    }
 }

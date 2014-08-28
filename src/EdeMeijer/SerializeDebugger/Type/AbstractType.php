@@ -15,4 +15,12 @@ abstract class AbstractType implements TypeInterface
     {
         throw new Exception('Not implemented');
     }
+
+    /**
+     * @return int
+     */
+    public function getLevel()
+    {
+        return self::LEVEL_SAFE;
+    }
 } 

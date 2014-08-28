@@ -1,3 +1,3 @@
 # serialize-debugger
 
-A tool for debugging failing PHP serialize() calls
+A tool for debugging failing or dangerous PHP serialize() calls

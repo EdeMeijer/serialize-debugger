@@ -12,12 +12,4 @@ class SerializableType extends AbstractType
     {
         return 'Serializable: ' . get_class($data);
     }
-
-    /**
-     * @return bool
-     */
-    public function isValid()
-    {
-        return true;
-    }
 }
