@@ -4,7 +4,7 @@ namespace EdeMeijer\SerializeDebugger;
 
 use EdeMeijer\SerializeDebugger\Type\TypeInterface;
 
-class DebugResult
+class Result
 {
     /** @var Node[] */
     private $nodes = [];
