@@ -26,7 +26,7 @@ class Debugger
     public static function debugPlaintext($data, $verbose = false)
     {
         echo (new PlainTextFormatter())
-            ->format((new Debugger())->getDebugResult($data), $verbose);
+            ->format((new self())->getDebugResult($data), $verbose);
     }
 
     /**
@@ -36,6 +36,6 @@ class Debugger
     public static function debugHTML($data, $verbose = false)
     {
         echo (new HTMLFormatter())
-            ->format((new Debugger())->getDebugResult($data), $verbose);
+            ->format((new self())->getDebugResult($data), $verbose);
     }
 }

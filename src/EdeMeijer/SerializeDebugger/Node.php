@@ -135,29 +135,18 @@ class Node
         // and they might support the __sleep method that prepares their state.
         // Objects themselves are perfectly safe to serialize
         $this->type = new ObjectType();
-
-        $reflector = new ReflectionObject($object);
-        $reflectionProperties = $reflector->getProperties(
-            ReflectionProperty::IS_PRIVATE |
-            ReflectionProperty::IS_PROTECTED |
-            ReflectionProperty::IS_PUBLIC
-        );
+        $enumerator = new ObjectPropertyExtractor($object);
 
         // Call __sleep if present
         if (method_exists($object, '__sleep')) {
             $properties = call_user_func([$object, '__sleep']);
         } else {
-            $properties = [];
-            foreach ($reflectionProperties as $reflectionProperty) {
-                $properties[] = $reflectionProperty->getName();
-            }
+            $properties = $enumerator->getProperties();
         }
 
         foreach ($properties as $property) {
-            $reflectionProperty = $reflector->getProperty($property);
-            $reflectionProperty->setAccessible(true);
-            $childNode = $this->tracker->getNodeForData($reflectionProperty->getValue($object));
-            $reflectionProperty->setAccessible($reflectionProperty->isPublic());
+            $value = $enumerator->getValue($property);
+            $childNode = $this->tracker->getNodeForData($value);
             $this->addChildNode($property, $childNode);
             $childNode->resolve();
         }

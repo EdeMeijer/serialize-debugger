@@ -3,6 +3,7 @@
 namespace EdeMeijer\SerializeDebugger\Test;
 
 use EdeMeijer\SerializeDebugger\Debugger;
+use EdeMeijer\SerializeDebugger\Test\Mocks\TestSubClass;
 use stdClass;
 
 class DebuggerTest extends \PHPUnit_Framework_TestCase
@@ -60,6 +61,29 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $nodes[1]->getChildNodes());
         $this->assertSame($nodes[1], $nodes[0]->getChildNodes()['bRef']);
         $this->assertSame($nodes[0], $nodes[1]->getChildNodes()['aRef']);
+    }
+
+    public function testItReadsAllKindsOfObjectPropertiesCorrectly()
+    {
+        require_once __DIR__ . '/Mocks/TestBaseClass.php';
+        require_once __DIR__ . '/Mocks/TestSubClass.php';
+
+        $objWithInheritance = new TestSubClass();
+        $nodes = $this->SUT->getDebugResult($objWithInheritance)->getRawNodes();
+        $childNodes = $nodes[0]->getChildNodes();
+
+        // We expect 8 nodes; the base object and 7 properties
+        $this->assertCount(8, $nodes);
+        // Check if all expected properties are indexed
+        $this->assertArrayHasKey('privateSubVar', $childNodes);
+        $this->assertArrayHasKey('protectedSubVar', $childNodes);
+        $this->assertArrayHasKey('publicSubVar', $childNodes);
+        $this->assertArrayHasKey('overriddenBaseVar', $childNodes);
+        $this->assertArrayHasKey('protectedBaseVar', $childNodes);
+        $this->assertArrayHasKey('publicBaseVar', $childNodes);
+        $this->assertArrayHasKey('privateBaseVar', $childNodes);
+        // Check if value of overridden property is the one of the sub class
+        $this->assertEquals('def', $childNodes['overriddenBaseVar']->getData());
     }
 
     /**
