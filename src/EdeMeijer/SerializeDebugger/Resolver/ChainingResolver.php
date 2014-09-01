@@ -36,13 +36,16 @@ class ChainingResolver implements ResolverInterface
      */
     public function resolve(Node $node, Context $context)
     {
-        foreach ($this->resolvers as $resolver) {
-            try {
-                return $resolver->resolve($node, $context);
-            } catch (TypeNotSupportedException $ex) {
-                // No problem, just try the next one
+        if (!$node->hasType()) {
+            foreach ($this->resolvers as $resolver) {
+                try {
+                    return $resolver->resolve($node, $context);
+                } catch (TypeNotSupportedException $ex) {
+                    // No problem, just try the next one
+                }
             }
+            throw new TypeNotSupportedException();
         }
-        throw new TypeNotSupportedException();
+        return $node;
     }
 }

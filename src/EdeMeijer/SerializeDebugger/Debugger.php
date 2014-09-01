@@ -30,7 +30,7 @@ class Debugger
                     new ClosureResolver(),
                     new SerializableResolver(),
                     new ObjectResolver(),
-                    new PrimitiveTypeResolver()
+                    new PrimitiveTypeResolver(),
                 ]
             )
         );

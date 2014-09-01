@@ -26,9 +26,11 @@ class RecursiveResolver implements ResolverInterface
      */
     public function resolve(Node $node, Context $context)
     {
-        $node = $this->baseResolver->resolve($node, $context);
-        foreach ($node->getChildNodes() as $childNodes) {
-            $this->resolve($childNodes, $context);
+        if (!$node->hasType()) {
+            $node = $this->baseResolver->resolve($node, $context);
+            foreach ($node->getChildNodes() as $childNodes) {
+                $this->resolve($childNodes, $context);
+            }
         }
         return $node;
     }

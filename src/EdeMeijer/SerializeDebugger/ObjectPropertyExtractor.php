@@ -77,22 +77,12 @@ class ObjectPropertyExtractor
 
     /**
      * @param ReflectionClass $reflector
-     */
-    private function initializeParentPrivateProperties(ReflectionClass $reflector)
-    {
-        $parentReflector = $reflector->getParentClass();
-        if ($parentReflector instanceof ReflectionClass) {
-            $reflectionProperties = $this->getPrivateReflectionProperties($parentReflector);
-            $this->initializePropertiesFromReflectionProperties($parentReflector, $reflectionProperties);
-        }
-    }
-
-    /**
-     * @param \ReflectionClass $reflector
      * @param ReflectionProperty[] $reflectionProperties
      */
-    private function initializePropertiesFromReflectionProperties(ReflectionClass $reflector, $reflectionProperties)
-    {
+    private function initializePropertiesFromReflectionProperties(
+        ReflectionClass $reflector,
+        array $reflectionProperties
+    ) {
         foreach ($reflectionProperties as $reflectionProperty) {
             $reflectionProperty->setAccessible(true);
             $value = $reflectionProperty->getValue($this->object);
@@ -102,6 +92,18 @@ class ObjectPropertyExtractor
         }
 
         $this->initializeParentPrivateProperties($reflector);
+    }
+
+    /**
+     * @param ReflectionClass $reflector
+     */
+    private function initializeParentPrivateProperties(ReflectionClass $reflector)
+    {
+        $parentReflector = $reflector->getParentClass();
+        if ($parentReflector instanceof ReflectionClass) {
+            $reflectionProperties = $this->getPrivateReflectionProperties($parentReflector);
+            $this->initializePropertiesFromReflectionProperties($parentReflector, $reflectionProperties);
+        }
     }
 
     /**
