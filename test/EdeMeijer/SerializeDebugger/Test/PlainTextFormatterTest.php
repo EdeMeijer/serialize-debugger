@@ -2,7 +2,6 @@
 
 namespace EdeMeijer\SerializeDebugger\Test;
 
-use EdeMeijer\SerializeDebugger\Debugger;
 use EdeMeijer\SerializeDebugger\Result\PlainTextFormatter;
 use EdeMeijer\SerializeDebugger\Result\ResultItem;
 use EdeMeijer\SerializeDebugger\Result\SimpleResultItemCollection;
@@ -21,10 +20,11 @@ class PlainTextFormatterTest extends \PHPUnit_Framework_TestCase
         $expected = <<<'TEXT'
 Primitive: NULL - safe
 Primitive: boolean - safe
-	a->b
+    a->b
 Closure - ERROR
-	a->b
-	c[d]
+    a->b
+    c[d]
+
 TEXT;
         $this->assertEquals($expected, $formatted);
     }
@@ -38,8 +38,9 @@ TEXT;
 
         $expected = <<<'TEXT'
 Closure - ERROR
-	a->b
-	c[d]
+    a->b
+    c[d]
+
 TEXT;
         $this->assertEquals($expected, $formatted);
     }

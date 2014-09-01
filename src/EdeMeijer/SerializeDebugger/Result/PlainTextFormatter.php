@@ -22,9 +22,9 @@ class PlainTextFormatter extends AbstractFormatter
                 $levelIndicator
             );
             foreach ($item->getReferencePaths() as $path) {
-                $res[] = "\t" . $path;
+                $res[] = str_repeat(' ', 4) . $path;
             }
         }
-        return implode(PHP_EOL, $res);
+        return implode(PHP_EOL, $res) . PHP_EOL;
     }
 }
