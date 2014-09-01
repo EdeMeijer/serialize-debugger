@@ -2,29 +2,21 @@
 
 namespace EdeMeijer\SerializeDebugger\Result;
 
-class HTMLFormatter extends AbstractFormatter
+class HTMLFormatter extends SimpleFormatter
 {
     /**
-     * @param ResultItem[] $items
      * @return string
      */
-    protected function doFormat(array $items)
+    protected function getEOL()
     {
-        $res = [];
-        foreach ($items as $item) {
-            $type = $item->getType();
-            $level = $type->getLevel();
+        return '<br>';
+    }
 
-            $levelIndicator = $this->getLevelIndicator($level);
-            $res[] = sprintf(
-                '%s - %s',
-                $type->getName($item->getData()),
-                $levelIndicator
-            );
-            foreach ($item->getReferencePaths() as $path) {
-                $res[] = str_repeat('&nbsp;', 4) . $path;
-            }
-        }
-        return implode('<br>', $res);
+    /**
+     * @return string
+     */
+    protected function getSpace()
+    {
+        return '&nbsp;';
     }
 }
