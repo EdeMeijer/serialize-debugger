@@ -19,6 +19,7 @@
         "ext-reflection": "*"
     },
     "require-dev": {
+        "php" : ">= 5.5.0",
         "phpunit/phpunit": "3.7.*"
     },
     "autoload": {

@@ -52,6 +52,20 @@ class ObjectPropertyExtractor
         return $this->propertyMap[$property];
     }
 
+    /**
+     * @param string[] $properties
+     * @return mixed[]
+     * @throws Exception
+     */
+    public function getValues(array $properties)
+    {
+        $result = [];
+        foreach ($properties as $property) {
+            $result[$property] = $this->getValue($property);
+        }
+        return $result;
+    }
+
     private function initializePropertyMap()
     {
         if ($this->propertyMap === null) {
@@ -111,4 +125,4 @@ class ObjectPropertyExtractor
     {
         return $reflector->getProperties(ReflectionProperty::IS_PRIVATE);
     }
-} 
+}

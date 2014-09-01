@@ -39,11 +39,11 @@ class DebugResultTest extends \PHPUnit_Framework_TestCase
         $expected = [
             new ResultItem($data, new ObjectType()),
             new ResultItem($data->prop, new ArrayType(), ['{root}->prop']),
-            new ResultItem($data->prop['sub'], new ArrayType(), ['{root}->prop[sub]']),
-            new ResultItem($data->prop['sub']['resource'], new ResourceType(), ['{root}->prop[sub][resource]']),
-            new ResultItem($data->prop['test'], new PrimitiveType(), ['{root}->prop[test]']),
             new ResultItem($data->test, new PrimitiveType(), ['{root}->test']),
             new ResultItem($data->closure, new ClosureType(), ['{root}->closure']),
+            new ResultItem($data->prop['sub'], new ArrayType(), ['{root}->prop[sub]']),
+            new ResultItem($data->prop['test'], new PrimitiveType(), ['{root}->prop[test]']),
+            new ResultItem($data->prop['sub']['resource'], new ResourceType(), ['{root}->prop[sub][resource]']),
         ];
 
         $this->assertEquals($expected, $actual);

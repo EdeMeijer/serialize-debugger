@@ -34,9 +34,8 @@ class Result implements ResultItemCollection
     {
         if (!$this->processed) {
             $this->processed = true;
-            foreach ($this->nodes as $nn => $node) {
-                $node->setId($nn);
-                $this->references[$nn] = [];
+            foreach ($this->nodes as $node) {
+                $this->references[$node->getId()] = [];
             }
             foreach ($this->nodes as $parentNode) {
                 foreach ($parentNode->getChildNodes() as $key => $childNode) {
@@ -53,6 +52,10 @@ class Result implements ResultItemCollection
     {
         $res = [];
         foreach ($this->getRawNodes() as $node) {
+            if (!$node->hasType()) {
+                var_dump($node);
+                exit;
+            }
             $res[] = new ResultItem(
                 $node->getData(),
                 $node->getType(),
