@@ -33,7 +33,7 @@ class DebugResultTest extends \PHPUnit_Framework_TestCase
             'closure' => function() {}
         ];
 
-        $SUT = $this->debugger->getDebugResult($data);
+        $SUT = $this->debugger->debug($data);
         $actual = $SUT->getItems();
 
         $expected = [

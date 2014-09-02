@@ -79,7 +79,7 @@ Without using the static convenience methods:
 ```php
 $debugger = new Debugger();
 $formatter = new PlainTextFormatter();
-$result = $debugger->getDebugResult($data, $verbose);
+$result = $debugger->debug($data, $verbose);
 echo $formatter->format($result);
 ```
 

@@ -2,6 +2,8 @@
 
 namespace EdeMeijer\SerializeDebugger\Result;
 
+use EdeMeijer\SerializeDebugger\Context;
+use EdeMeijer\SerializeDebugger\Exception;
 use EdeMeijer\SerializeDebugger\Node;
 
 class Result implements ResultItemCollection
@@ -14,12 +16,16 @@ class Result implements ResultItemCollection
     private $references;
 
     /**
-     * @param Node[] $nodes
+     * @param Context $context
+     * @throws Exception
      */
-    public function __construct(array $nodes)
+    public function __construct(Context $context)
     {
-        $this->nodes = $nodes;
-        foreach ($nodes as $node) {
+        $this->nodes = $context->getNodes();
+        foreach ($this->nodes as $node) {
+            if (!$node->hasType()) {
+                throw new Exception('Detected non-resolved node in result context');
+            }
             $this->nodesById[$node->getId()] = $node;
         }
     }
