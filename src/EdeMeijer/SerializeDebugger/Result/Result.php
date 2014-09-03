@@ -86,20 +86,22 @@ class Result implements ResultItemCollection
     {
         $frontier = [[$node->getId()]];
         $result = [];
+        $rootId = $this->nodes[0]->getId();
 
         while (count($frontier) > 0) {
             $newFrontier = [];
 
             foreach ($frontier as $path) {
                 $base = $path[0];
-                $parentRefs = $this->getReferences()[$base];
-                foreach (array_keys($parentRefs) as $parentId) {
-                    if (!in_array($parentId, $path)) {
-                        $newFrontier[] = array_merge([$parentId], $path);
-                    }
-                }
-                if (count($parentRefs) === 0) {
+                if ($base === $rootId) {
                     $result[] = $path;
+                } else {
+                    $parentRefs = $this->getReferences()[$base];
+                    foreach (array_keys($parentRefs) as $parentId) {
+                        if (!in_array($parentId, $path)) {
+                            $newFrontier[] = array_merge([$parentId], $path);
+                        }
+                    }
                 }
             }
             $frontier = $newFrontier;
