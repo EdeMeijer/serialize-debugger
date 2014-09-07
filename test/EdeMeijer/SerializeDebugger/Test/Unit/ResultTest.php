@@ -1,6 +1,6 @@
 <?php
 
-namespace EdeMeijer\SerializeDebugger\Test;
+namespace EdeMeijer\SerializeDebugger\Test\Unit;
 
 use EdeMeijer\SerializeDebugger\Debugger;
 use EdeMeijer\SerializeDebugger\Result\ResultItem;
@@ -10,7 +10,7 @@ use EdeMeijer\SerializeDebugger\Type\ObjectType;
 use EdeMeijer\SerializeDebugger\Type\PrimitiveType;
 use EdeMeijer\SerializeDebugger\Type\ResourceType;
 
-class DebugResultTest extends \PHPUnit_Framework_TestCase
+class ResultTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Debugger */
     private $debugger;

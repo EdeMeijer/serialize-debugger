@@ -112,11 +112,7 @@ class ObjectPropertyExtractor
      */
     private function getAccessibleReflectionProperties(ReflectionClass $reflector)
     {
-        return $reflector->getProperties(
-            ReflectionProperty::IS_PRIVATE |
-            ReflectionProperty::IS_PROTECTED |
-            ReflectionProperty::IS_PUBLIC
-        );
+        return $this->getWithoutStatic($reflector->getProperties());
     }
 
     /**
@@ -125,6 +121,21 @@ class ObjectPropertyExtractor
      */
     private function getPrivateReflectionProperties(ReflectionClass $reflector)
     {
-        return $reflector->getProperties(ReflectionProperty::IS_PRIVATE);
+        return $this->getWithoutStatic($reflector->getProperties(ReflectionProperty::IS_PRIVATE));
+    }
+
+    /**
+     * @param ReflectionProperty[] $properties
+     * @return ReflectionProperty[]
+     */
+    private function getWithoutStatic(array $properties)
+    {
+        $filtered = [];
+        foreach ($properties as $property) {
+            if (!$property->isStatic()) {
+                $filtered[] = $property;
+            }
+        }
+        return $filtered;
     }
 }

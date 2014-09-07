@@ -1,6 +1,6 @@
 <?php
 
-namespace EdeMeijer\SerializeDebugger\Test;
+namespace EdeMeijer\SerializeDebugger\Test\Unit;
 
 use EdeMeijer\SerializeDebugger\Result\PlainTextFormatter;
 use EdeMeijer\SerializeDebugger\Result\ResultItem;

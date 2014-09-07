@@ -12,4 +12,11 @@ class TestSubClass extends TestBaseClass
     public $publicSubVar = 789;
     /** @var string */
     public $overriddenBaseVar = 'def';
+
+    /** @var string */
+    public static $publicStaticSubVar = 'ghi';
+    /** @var string */
+    protected static $protectedStaticSubVar = 'jkl';
+    /** @var string */
+    private static $privateStaticSubVar = 'jkl';
 } 

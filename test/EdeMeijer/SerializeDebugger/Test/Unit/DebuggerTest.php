@@ -1,9 +1,8 @@
 <?php
 
-namespace EdeMeijer\SerializeDebugger\Test;
+namespace EdeMeijer\SerializeDebugger\Test\Unit;
 
 use EdeMeijer\SerializeDebugger\Debugger;
-use EdeMeijer\SerializeDebugger\Test\Mocks\TestSubClass;
 use stdClass;
 
 class DebuggerTest extends \PHPUnit_Framework_TestCase
@@ -63,29 +62,6 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($nodes[0], $nodes[1]->getChildNodes()['aRef']);
     }
 
-    public function testItReadsAllKindsOfObjectPropertiesCorrectly()
-    {
-        require_once __DIR__ . '/Mocks/TestBaseClass.php';
-        require_once __DIR__ . '/Mocks/TestSubClass.php';
-
-        $objWithInheritance = new TestSubClass();
-        $nodes = $this->SUT->debug($objWithInheritance)->getRawNodes();
-        $childNodes = $nodes[0]->getChildNodes();
-
-        // We expect 8 nodes; the base object and 7 properties
-        $this->assertCount(8, $nodes);
-        // Check if all expected properties are indexed
-        $this->assertArrayHasKey('privateSubVar', $childNodes);
-        $this->assertArrayHasKey('protectedSubVar', $childNodes);
-        $this->assertArrayHasKey('publicSubVar', $childNodes);
-        $this->assertArrayHasKey('overriddenBaseVar', $childNodes);
-        $this->assertArrayHasKey('protectedBaseVar', $childNodes);
-        $this->assertArrayHasKey('publicBaseVar', $childNodes);
-        $this->assertArrayHasKey('privateBaseVar', $childNodes);
-        // Check if value of overridden property is the one of the sub class
-        $this->assertEquals('def', $childNodes['overriddenBaseVar']->getData());
-    }
-
     /**
      * @return array
      */
@@ -98,7 +74,11 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
             [null, $base . 'PrimitiveType'],
             [true, $base . 'PrimitiveType'],
             [[], $base . 'ArrayType'],
-            [function () {}, $base . 'ClosureType'],
+            [
+                function () {
+                },
+                $base . 'ClosureType'
+            ],
             [new stdClass(), $base . 'ObjectType'],
             [new Debugger(), $base . 'ObjectType'],
             [fopen(__FILE__, 'r'), $base . 'ResourceType'],
