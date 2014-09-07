@@ -1,7 +1,7 @@
 <?php
 
 
-namespace EdeMeijer\SerializeDebugger\Test;
+namespace EdeMeijer\SerializeDebugger\Test\Unit;
 
 
 use EdeMeijer\SerializeDebugger\ObjectPropertyExtractor;
