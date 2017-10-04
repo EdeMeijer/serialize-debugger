@@ -60,7 +60,8 @@ Using composer, add to your composer.json:
 "edemeijer/serialize-debugger": ">=0.1.1"
 ```
 Then run `composer.phar update`
-#API
+
+# API
 Basic usage:
 ```php
 // There are two static convenience methods in the main debugger class:
