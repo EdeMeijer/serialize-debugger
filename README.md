@@ -36,7 +36,7 @@ Stack trace:
 
 Not very helpful, is it? Where is this closure located exactly? Imagine this happening with big, nested structures, and you're in for a lot of in-the-dark debugging fun.
 
-This is where serialize-debugger can lend a helping hand. Look at the following PHP snippet and it's output:
+This is where serialize-debugger can lend a helping hand. Look at the following PHP snippet and its output:
 
 ```php
 Debugger::debugPlaintext($nestedStruct);
